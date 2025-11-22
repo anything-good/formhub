@@ -14,7 +14,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
-use Filament\Infolists\Components\TextEntry;
+use Filament\Forms\Components\Placeholder;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
@@ -43,14 +43,13 @@ class SubmissionsRelationManager extends RelationManager
 
         foreach ($form->fields as $field) {
             $components[] =
-                TextEntry::make('field_' . $field->id)
+                Placeholder::make('field_' . $field->id)
                     ->label($field->label)
                     ->content(
                         fn($record) =>
-                        $record->values()
-                            ->where('field_id', $field->id)
-                            ->first()
-                                ?->value ?? '—'
+                        $record->values->where('field_id', $field->id)
+                            ->map(fn($val) => $val->option?->label ?? $val->value)
+                            ->join(', ') ?: '—'
                     );
         }
 
@@ -61,6 +60,7 @@ class SubmissionsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn($query) => $query->with('values'))
             ->recordTitleAttribute('title')
             ->columns([
                 TextColumn::make('user_id')

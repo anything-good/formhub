@@ -1,6 +1,11 @@
 @if ($form->status == 'published')
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400..800&display=swap" rel="stylesheet">
 
-
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
 
     <form action="/forms/{{ $form->id }}/submit" method="POST" class="modern-form">
         @csrf
@@ -118,9 +123,53 @@
 <style>
     /* ---------- Page Background ---------- */
     body {
-        background: linear-gradient(135deg, #ece9ff, #f8f7ff);
+        background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 50%, #9ae6b4 100%);
         padding: 2rem 0;
-        font-family: 'Inter', sans-serif;
+        font-family: 'Baloo Da 2', sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    /* ---------- Animated Background Shapes ---------- */
+    .bg-shape {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.15;
+        animation: float 20s infinite ease-in-out;
+        z-index: -1;
+    }
+
+    .shape-1 {
+        width: 300px;
+        height: 300px;
+        background: #48bb78;
+        top: -150px;
+        right: -150px;
+        animation-delay: 0s;
+    }
+
+    .shape-2 {
+        width: 200px;
+        height: 200px;
+        background: #38a169;
+        bottom: -100px;
+        left: -100px;
+        animation-delay: 5s;
+    }
+
+    .shape-3 {
+        width: 150px;
+        height: 150px;
+        background: #68d391;
+        top: 50%;
+        left: 10%;
+        animation-delay: 10s;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(30px, -30px) scale(1.1); }
+        66% { transform: translate(-20px, 20px) scale(0.9); }
     }
 
     /* ---------- Layout ---------- */
@@ -128,40 +177,44 @@
         max-width: 650px;
         margin: 2rem auto;
         padding: 1rem;
+        position: relative;
+        z-index: 1;
     }
 
     .form-card {
-        background: #fff;
-        border-radius: 16px;
-        padding: 2.2rem 2.6rem;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 2.5rem 3rem;
+        box-shadow: 0 10px 40px rgba(56, 161, 105, 0.15);
         transition: 0.35s ease;
+        border: 1px solid rgba(255, 255, 255, 0.5);
     }
 
     .form-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 15px 50px rgba(56, 161, 105, 0.25);
     }
 
     .form-title {
-        font-size: 2rem;
+        font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: .5rem;
-        background: linear-gradient(135deg, #6b5eff, #4f3aff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #22543d;
+        text-align: center;
     }
 
     .form-desc {
-        font-size: 1.05rem;
-        color: #666;
-        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        color: #2f855a;
+        margin-bottom: 2.5rem;
+        text-align: center;
+        line-height: 1.6;
     }
 
     /* ---------- Fields Divider ---------- */
     .form-field {
-        padding-bottom: 1rem;
-        border-bottom: 1px dashed #eee;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px dashed #c6f6d5;
         margin-bottom: 1.5rem;
     }
 
@@ -178,12 +231,13 @@
     .floating input,
     .floating textarea {
         width: 100%;
-        padding: 1rem .9rem;
-        border: 2px solid #ddd;
-        border-radius: 10px;
+        padding: 1.1rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
         font-size: 1rem;
-        background: none;
+        background: #f8fff9;
         transition: 0.25s;
+        color: #2d3748;
     }
 
     .floating textarea {
@@ -193,8 +247,10 @@
 
     .floating input:focus,
     .floating textarea:focus {
-        border-color: #6b5eff;
-        box-shadow: 0 0 0 3px rgba(107, 94, 255, 0.15);
+        border-color: #48bb78;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(72, 187, 120, 0.15);
+        outline: none;
     }
 
     .floating label {
@@ -202,107 +258,139 @@
         left: 14px;
         top: 50%;
         transform: translateY(-50%);
-        font-size: 0.95rem;
-        color: #777;
+        font-size: 1rem;
+        color: #718096;
         pointer-events: none;
         transition: 0.25s;
-        background: white;
+        background: transparent;
         padding: 0 .35rem;
-        border-radius: 6px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
     .floating input:not(:placeholder-shown)+label,
     .floating textarea:not(:placeholder-shown)+label,
     .floating input:focus+label,
     .floating textarea:focus+label {
-        top: -9px;
-        font-size: 0.75rem;
-        color: #6b5eff;
+        top: -10px;
+        font-size: 0.85rem;
+        color: #38a169;
+        background: white;
+        border-radius: 4px;
+        font-weight: 600;
     }
 
     /* ---------- Select ---------- */
     .standard-label {
         font-weight: 600;
-        margin-bottom: .4rem;
+        margin-bottom: .6rem;
         display: block;
+        color: #22543d;
+        font-size: 1.1rem;
     }
 
     .modern-select {
         width: 100%;
-        padding: .8rem;
-        border: 2px solid #ddd;
-        border-radius: 10px;
+        padding: .9rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
         font-size: 1rem;
-        background: white;
+        background: #f8fff9;
         transition: 0.25s;
+        color: #2d3748;
+        cursor: pointer;
     }
 
     .modern-select:focus {
-        border-color: #6b5eff;
-        box-shadow: 0 0 0 3px rgba(107, 94, 255, 0.15);
+        border-color: #48bb78;
+        box-shadow: 0 0 0 4px rgba(72, 187, 120, 0.15);
+        outline: none;
     }
 
     /* ---------- Checkboxes ---------- */
     .checkbox-group {
         display: flex;
         flex-direction: column;
-        gap: .5rem;
+        gap: .8rem;
+        background: #f8fff9;
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
     }
 
     .checkbox-item {
         display: flex;
         align-items: center;
-        gap: .5rem;
+        gap: .8rem;
         padding: .4rem .2rem;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .checkbox-item:hover {
+        color: #2f855a;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+        width: 1.2rem;
+        height: 1.2rem;
+        accent-color: #48bb78;
+        cursor: pointer;
     }
 
     /* ---------- Rating ---------- */
     .rating-group {
         display: flex;
-        gap: .25rem;
-        margin-top: .3rem;
+        gap: .5rem;
+        margin-top: .5rem;
         user-select: none;
+        justify-content: center;
+        background: #f8fff9;
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
     }
 
     .star {
         cursor: pointer;
-        font-size: 2rem;
-        color: #ccc;
+        font-size: 2.5rem;
+        color: #cbd5e0;
         transition: 0.25s;
     }
 
     .star:hover {
-        transform: scale(1.15);
-        color: gold;
+        transform: scale(1.2);
+        color: #ecc94b;
     }
 
     .star.selected {
-        color: gold;
-        text-shadow: 0 0 10px rgba(255, 200, 0, 0.6);
+        color: #ecc94b;
+        text-shadow: 0 2px 4px rgba(236, 201, 75, 0.4);
     }
 
     /* ---------- Button ---------- */
     .submit-btn {
-        margin-top: 1.5rem;
+        margin-top: 2rem;
         width: 100%;
-        padding: 0.9rem;
+        padding: 1.1rem;
         border: none;
-        border-radius: 14px;
-        font-size: 1.15rem;
+        border-radius: 50px;
+        font-size: 1.25rem;
         font-weight: 700;
         color: white;
         cursor: pointer;
-        background: linear-gradient(135deg, #6b5eff, #4f3aff);
-        background-size: 200%;
-        background-position: left;
-        transition: 0.35s ease;
+        background: linear-gradient(135deg, #48bb78, #38a169);
+        box-shadow: 0 10px 30px rgba(56, 161, 105, 0.3);
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
     }
 
     .submit-btn:hover {
-        transform: translateY(-2px);
-        background-position: right;
-        box-shadow: 0 8px 18px rgba(107, 94, 255, 0.4);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(56, 161, 105, 0.4);
+        background: linear-gradient(135deg, #38a169, #2f855a);
+    }
+
+    .submit-btn:active {
+        transform: translateY(-1px);
     }
 
     .rating-input {
@@ -342,24 +430,24 @@
 
     .form-closed-box {
         margin-top: 2rem;
-        padding: 1.7rem;
-        border-radius: 14px;
-        background: #f9f2ff;
-        border: 1.5px solid #e5d8ff;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid #c6f6d5;
+        box-shadow: 0 10px 30px rgba(56, 161, 105, 0.1);
         animation: fade-in 0.6s ease;
     }
 
     .form-closed-box h3 {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         font-weight: 700;
-        color: #6b5eff;
+        color: #2f855a;
         margin-bottom: 0.5rem;
     }
 
     .form-closed-box p {
-        font-size: 1.05rem;
-        color: #555;
+        font-size: 1.1rem;
+        color: #4a5568;
     }
 
     @keyframes fade-in {
@@ -454,12 +542,6 @@
         }
     }
 
-    /* Optional: make the card’s background gradient softly visible */
-    body {
-        background: linear-gradient(135deg, #6b5eff, #a56bff);
-        padding: 2rem 0;
-        font-family: 'Inter', sans-serif;
-    }
 </style>
 
 <script>

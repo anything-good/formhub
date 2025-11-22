@@ -6,7 +6,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Illuminate\Support\Facades\Auth;
-
+use App\Filament\Widgets\FormPreview;
 class FormForm
 {
     public static function configure($form)
@@ -68,11 +68,22 @@ class FormForm
                                 TextInput::make('label')
                                     ->label('Option Label')
                                     ->required()
+                                    ->maxLength(255)
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(fn($state, callable $set) => $set('value', \Illuminate\Support\Str::slug($state))),
+
+                                TextInput::make('value')
+                                    ->label('Option Value')
+                                    ->required()
+                                    ->hidden()
+                                    ->dehydrated()
                                     ->maxLength(255),
                             ])
                             ->orderable(),
                     ])
                     ->orderable(),
+
+
             ]);
     }
 }

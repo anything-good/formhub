@@ -29,4 +29,11 @@ class EditForm extends EditRecord
     }
 
 
+    protected function getFooterWidgets(): array
+    {
+        return [
+            \App\Filament\Resources\Forms\Widgets\SubmissionCountChart::class,
+            \App\Filament\Resources\Forms\Widgets\FieldResultsChart::class,
+        ];
+    }
 }

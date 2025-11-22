@@ -12,6 +12,8 @@ class FormSubmissionController extends Controller
 {
     public function store(Request $request, Form $form)
     {
+
+
         // -----------------------------------
         // 1. Build VALIDATION rules dynamically
         // -----------------------------------
@@ -23,7 +25,7 @@ class FormSubmissionController extends Controller
             // basic rule (you can extend depending on your needs)
             $rule = [];
 
-            if ($field->is_required) {
+            if ($field->required) {
                 $rule[] = 'required';
             } else {
                 $rule[] = 'nullable';
