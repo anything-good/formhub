@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Forms;
 use App\Filament\Resources\Forms\Pages\CreateForm;
 use App\Filament\Resources\Forms\Pages\EditForm;
 use App\Filament\Resources\Forms\Pages\ListForms;
+use App\Filament\Resources\Forms\RelationManagers\SubmissionsRelationManager;
 use App\Filament\Resources\Forms\Schemas\FormForm;
 use App\Filament\Resources\Forms\Tables\FormsTable;
 use App\Models\Form;
@@ -22,6 +23,12 @@ class FormResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::PaperClip;
 
+    // add badge for count
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) Form::count();
+    }
+
     protected static ?string $recordTitleAttribute = 'title';
 
     public static function form(Schema $schema): Schema
@@ -37,7 +44,7 @@ class FormResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            SubmissionsRelationManager::class,
         ];
     }
 
